@@ -1,5 +1,7 @@
-package com.wisely.highlight_spring4.ch2.el;
+package com.wisely.highlight_spring4.summary.config;
 
+import com.wisely.highlight_spring4.summary.dependency.FunctionService;
+import com.wisely.highlight_spring4.summary.dependency.UseFunctionService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +14,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 
 @Configuration
-@ComponentScan("com.wisely.highlight_spring4.ch2.el")
-@PropertySource("classpath:com/wisely/highlight_spring4/ch2/el/test.properties")//7
-public class ElConfig {
+@ComponentScan("com.wisely.highlight_spring4.summary.dependency")
+@PropertySource("classpath:test.properties")//7
+public class Config {
 	
 	@Value("I Love You!") //1
     private String normal;
@@ -28,7 +30,7 @@ public class ElConfig {
 	@Value("#{demoService.another}") //4
 	private String fromAnother;
 
-	@Value("classpath:com/wisely/highlight_spring4/ch2/el/test.txt") //5
+	@Value("classpath:test.txt") //5
 	private Resource testFile;
 
 	@Value("http://www.baidu.com") //6 
@@ -44,8 +46,6 @@ public class ElConfig {
 	public static PropertySourcesPlaceholderConfigurer propertyConfigure() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
-	
-
 
 	public void outputResource() {
 		try {
@@ -62,6 +62,28 @@ public class ElConfig {
 			e.printStackTrace();
 		}
 
+	}
+
+	//会把ServiceInjection类
+
+	//接下去三个@Bean的配置方式
+	@Bean
+	public FunctionService functionService(){
+		return new FunctionService();
+	}
+
+//	@Bean
+//	public UseFunctionService useFunctionService(){
+//		UseFunctionService useFunctionService = new UseFunctionService();
+//		useFunctionService.setFunctionService(functionService()); //3
+//		return useFunctionService;
+//	}
+
+	@Bean
+	public UseFunctionService useFunctionService(FunctionService functionService){//4
+		UseFunctionService useFunctionService = new UseFunctionService();
+		useFunctionService.setFunctionService(functionService);
+		return useFunctionService;
 	}
 
 	
