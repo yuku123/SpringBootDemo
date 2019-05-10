@@ -1,6 +1,5 @@
-package com.wisely.highlight_spring4.ch1.javaconfig;
+package com.wisely.highlight_spring4.summary.dependency;
 
-import com.wisely.highlight_spring4.ch1.javaconfig.FunctionService;
 //1
 public class UseFunctionService {
 	//2
